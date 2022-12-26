@@ -8,6 +8,7 @@ packages = [{include = "pascal_interpreter"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+pytest = "^7.2.0"
 
 
 [build-system]
