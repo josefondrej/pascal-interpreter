@@ -5,11 +5,11 @@ from pascal_intepreter.part1.token_types import TokenType
 class Interpreter:
     def __init__(self, text: str):
         # client string input, e.g. "3+5"
-        self.text = text
+        self.text: str = text
         # self.pos is an index into self.text
-        self.pos = 0
+        self.pos: int = 0
         # current token instance
-        self.current_token = None
+        self.current_token: Token = None
 
     def error(self):
         raise Exception('Error parsing input')
