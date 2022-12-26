@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "pascal-interpreter"
+version = "0.1.0"
+description = ""
+authors = ["Josef Ondřej <josef.ondrej@outlook.com>"]
+readme = "README.md"
+packages = [{include = "pascal_interpreter"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
