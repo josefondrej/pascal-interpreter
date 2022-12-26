@@ -37,8 +37,15 @@ class Interpreter:
         # index to point to the next character after the digit,
         # and return the INTEGER token
         if current_char.isdigit():
-            token = Token(TokenType.INTEGER, int(current_char))
-            self.pos += 1
+            digit = ''
+            while current_char.isdigit():
+                digit += current_char
+                self.pos += 1
+                if self.pos > len(text) - 1:
+                    break
+                current_char = text[self.pos]
+
+            token = Token(TokenType.INTEGER, int(digit))
             return token
 
         if current_char == '+':
