@@ -1,3 +1,5 @@
+from typing import List
+
 from pascal_intepreter.part1.token import Token
 from pascal_intepreter.part1.token_types import TokenType
 
@@ -57,14 +59,21 @@ class Interpreter:
             self.pos += 1
             return token
 
+        if current_char == '-':
+            token = Token(TokenType.MINUS, current_char)
+            self.pos += 1
+            return token
+
         self.error()
 
-    def eat(self, token_type: TokenType):
+    def eat(self, token_types: List[TokenType]):
         # compare the current token type with the passed token
         # type and if they match then "eat" the current token
         # and assign the next token to the self.current_token,
         # otherwise raise an exception.
-        if self.current_token.type == token_type:
+        if isinstance(token_types, TokenType):
+            token_types = [token_types]
+        if self.current_token.type in token_types:
             self.current_token = self.get_next_token()
         else:
             self.error()
@@ -80,7 +89,7 @@ class Interpreter:
 
         # we expect the current token to be a '+' token
         op = self.current_token
-        self.eat(TokenType.PLUS)
+        self.eat([TokenType.PLUS, TokenType.MINUS])
 
         # we expect the current token to be a single-digit integer
         right = self.current_token
@@ -92,5 +101,8 @@ class Interpreter:
         # has been successfully found and the method can just
         # return the result of adding two integers, thus
         # effectively interpreting client input
-        result = left.value + right.value
+        if op.type == TokenType.PLUS:
+            result = left.value + right.value
+        elif op.type == TokenType.MINUS:
+            result = left.value - right.value
         return result
