@@ -32,6 +32,10 @@ class Interpreter:
         # what token to create based on the single character
         current_char = text[self.pos]
 
+        if current_char == ' ':
+            self.pos += 1
+            return self.get_next_token()
+
         # if the character is a digit then convert it to
         # integer, create an INTEGER token, increment self.pos
         # index to point to the next character after the digit,
