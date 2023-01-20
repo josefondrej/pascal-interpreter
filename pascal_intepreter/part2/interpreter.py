@@ -1,7 +1,7 @@
 # Token types
 # EOF (end-of-file) token is used to indicate that
 # there is no more input left for lexical analysis
-INTEGER, PLUS, MINUS, EOF = 'INTEGER', 'PLUS', 'MINUS', 'EOF'
+INTEGER, PLUS, MINUS, DOT, DIV, EOF = 'INTEGER', 'PLUS', 'MINUS', 'DOT', 'DIV', 'EOF'
 
 
 class Token(object):
@@ -83,6 +83,14 @@ class Interpreter(object):
                 self.advance()
                 return Token(MINUS, '-')
 
+            if self.current_char == '*':
+                self.advance()
+                return Token(DOT, '*')
+
+            if self.current_char == '/':
+                self.advance()
+                return Token(DIV, '/')
+
             self.error()
 
         return Token(EOF, None)
@@ -107,31 +115,37 @@ class Interpreter(object):
         self.current_token = self.get_next_token()
 
         # we expect the current token to be an integer
-        left = self.current_token
+        first_integer = self.current_token
         self.eat(INTEGER)
+
+        result = first_integer.value
 
         # we expect the current token to be either a '+' or '-'
-        op = self.current_token
-        if op.type == PLUS:
-            self.eat(PLUS)
-        else:
-            self.eat(MINUS)
+        while self.current_token.type != EOF:
+            op = self.current_token
+            if op.type == PLUS:
+                self.eat(PLUS)
+            elif op.type == MINUS:
+                self.eat(MINUS)
+            elif op.type == DOT:
+                self.eat(DOT)
+            elif op.type == DIV:
+                self.eat(DIV)
+            else:
+                self.error()
 
-        # we expect the current token to be an integer
-        right = self.current_token
-        self.eat(INTEGER)
-        # after the above call the self.current_token is set to
-        # EOF token
+            next_integer = self.current_token
+            self.eat(INTEGER)
 
-        # at this point either the INTEGER PLUS INTEGER or
-        # the INTEGER MINUS INTEGER sequence of tokens
-        # has been successfully found and the method can just
-        # return the result of adding or subtracting two integers,
-        # thus effectively interpreting client input
-        if op.type == PLUS:
-            result = left.value + right.value
-        else:
-            result = left.value - right.value
+            if op.type == PLUS:
+                result += next_integer.value
+            elif op.type == MINUS:
+                result -= next_integer.value
+            elif op.type == DOT:
+                result *= next_integer.value
+            elif op.type == DIV:
+                result /= next_integer.value
+
         return result
 
 

@@ -25,3 +25,12 @@ def test_arbitrary_number_of_operations():
     result = interpreter.expr()
     expected_result = 18
     assert result == expected_result
+
+
+def test_arbitrary_number_of_operations_combined_priorities():
+    # Exercise 3
+    # So far it parses input left to right, does not take into account priorities
+    interpreter = Interpreter('9 - 5 + 3 + 11 * 3')
+    result = interpreter.expr()
+    expected_result = 54
+    assert result == expected_result
