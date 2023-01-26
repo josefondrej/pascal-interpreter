@@ -16,3 +16,10 @@ def test_expr(text, expected_result):
     interpreter = Interpreter(lexer)
     result = interpreter.expr()
     assert result == expected_result
+
+
+def test_braced_expr():
+    lexer = Lexer("7 + 3 * (10 / (12 / (3 + 1) - 1))")
+    interpreter = Interpreter(lexer)
+    result = interpreter.expr()
+    assert result == 22

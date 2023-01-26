@@ -8,8 +8,14 @@
 # evaluate deeply nested arithmetic expressions like:
 # 7 + 3 * (10 / (12 / (3 + 1) - 1))
 
-INTEGER, DIV, MUL, PLUS, MINUS, EOF = \
-    'INTEGER', 'DIV', 'MUL', 'PLUS', 'MINUS', 'EOF'
+INTEGER, DIV, MUL, PLUS, MINUS, EOF, LBRACE, RBRACE = \
+    'INTEGER', 'DIV', 'MUL', 'PLUS', 'MINUS', 'EOF', '(', ')'
+
+
+# expr: term ((PLUS | MINUS) term)*
+# braced_expr: LBRACE expr RBRACE
+# term: factor ((MUL | DIV) factor)*
+# factor: INTEGER | braced_expr
 
 
 class Token:
@@ -77,6 +83,14 @@ class Lexer:
             self.advance()
             return Token(DIV, '/')
 
+        if self.current_char == '(':
+            self.advance()
+            return Token(LBRACE, '(')
+
+        if self.current_char == ')':
+            self.advance()
+            return Token(RBRACE, ')')
+
         self.error()
 
 
@@ -96,8 +110,13 @@ class Interpreter:
 
     def factor(self):
         token = self.current_token
-        self.eat(INTEGER)
-        return token.value
+        if token.type == LBRACE:
+            return self.braced_expr()
+        elif token.type == INTEGER:
+            self.eat(INTEGER)
+            return token.value
+        else:
+            self.error()
 
     def term(self):
         result = self.factor()
@@ -111,6 +130,12 @@ class Interpreter:
                 self.eat(DIV)
                 result /= self.factor()
 
+        return result
+
+    def braced_expr(self):
+        self.eat(LBRACE)
+        result = self.expr()
+        self.eat(RBRACE)
         return result
 
     def expr(self):
