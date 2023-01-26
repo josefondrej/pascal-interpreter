@@ -2,7 +2,8 @@
 #
 # EOF (end-of-file) token is used to indicate that
 # there is no more input left for lexical analysis
-INTEGER, MUL, DIV, EOF = 'INTEGER', 'MUL', 'DIV', 'EOF'
+INTEGER, MUL, DIV, PLUS, MINUS, EOF = \
+    'INTEGER', 'MUL', 'DIV', 'PLUS', 'MINUS', 'EOF'
 
 
 class Token(object):
@@ -81,6 +82,14 @@ class Lexer(object):
             if self.current_char == '/':
                 self.advance()
                 return Token(DIV, '/')
+
+            if self.current_char == '+':
+                self.advance()
+                return Token(PLUS, '+')
+
+            if self.current_char == '-':
+                self.advance()
+                return Token(MINUS, '-')
 
             self.error()
 

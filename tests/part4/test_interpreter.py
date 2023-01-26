@@ -1,6 +1,7 @@
 import pytest
 
-from pascal_intepreter.part4.interpreter import Lexer, Interpreter
+from pascal_intepreter.part4.exercise_interpreter import Interpreter
+from pascal_intepreter.part4.interpreter import Lexer
 
 
 @pytest.mark.parametrize("text, expected_result", [
