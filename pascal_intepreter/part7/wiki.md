@@ -10,3 +10,18 @@
     - ASTs don’t represent every detail from the real syntax (that’s why they’re called abstract) - no rule nodes and no
       parentheses, for example.
     - ASTs are dense compared to a parse tree for the same language construct.
+
+- ASTs are evaluated by a special case of depth-first traversal -- **postorder traversal**
+  ```
+  def visit(node): 
+    for child in node.children:
+        visit(child)
+    # postorder actions
+  ```
+  we need postorder because:
+    - we need to evaluate children lower in tree because they represent higher precedence operations
+    - we need to evaluate operands before operators (which we then apply to operands)
+
+- **recursive-descent parser** is a top-down parser that uses a set of recursive procedures to process the input.
+  Top-down reflects the fact that the parser begins by constructing the top node of the parse tree and then gradually
+  constructs lower nodes
