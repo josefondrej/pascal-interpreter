@@ -35,6 +35,9 @@ class Lexer:
 
     def _id(self) -> Token:
         result = ''
+        if self.current_char == '_':
+            result = '_'
+            self.advance()
         while self.current_char is not None and self.current_char.isalnum():
             result += self.current_char
             self.advance()
@@ -50,7 +53,7 @@ class Lexer:
 
     def get_next_token(self) -> Token:
         while self.current_char is not None:
-            if self.current_char.isalpha():
+            if self.current_char.isalpha() or self.current_char == '_':
                 return self._id()
 
             if self.current_char == ':' and self.peek() == '=':
