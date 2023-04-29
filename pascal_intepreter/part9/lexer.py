@@ -2,6 +2,11 @@ from pascal_intepreter.part9.token import Token
 from pascal_intepreter.part9.token_type import SEMI, INTEGER, ID, ASSIGN, DOT, PLUS, MINUS, MUL, DIV, LPAREN, RPAREN, \
     EOF
 
+RESERVED_KEYWORDS = {
+    'BEGIN': Token('BEGIN', 'BEGIN'),
+    'END': Token('END', 'END')
+}
+
 
 class Lexer:
     def __init__(self, text: str):
@@ -32,7 +37,8 @@ class Lexer:
         while self.current_char is not None and self.current_char.isalnum():
             result += self.current_char
             self.advance()
-        return Token(ID, result)
+        token = RESERVED_KEYWORDS.get(result.upper(), Token(ID, result))
+        return token
 
     def _number(self) -> Token:
         result = ''
