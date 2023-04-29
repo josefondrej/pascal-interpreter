@@ -43,3 +43,17 @@ def test_interpret_exercise_1():
     interpreter = Interpreter(parser)
     interpreter.interpret()
     assert interpreter.GLOBAL_SCOPE == {'a': 2, 'x': 11, 'c': 27, 'b': 25, 'number': 2}
+
+
+def test_interpret_exercise_2():
+    program_text = """
+    BEGIN
+        a := 5 div 3 + 1;
+        b := a * 10 div 2;
+    END.
+    """
+    lexer = Lexer(program_text)
+    parser = Parser(lexer)
+    interpreter = Interpreter(parser)
+    interpreter.interpret()
+    assert interpreter.GLOBAL_SCOPE == {'a': 2, 'b': 10}

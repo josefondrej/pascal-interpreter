@@ -4,7 +4,8 @@ from pascal_intepreter.part9.token_type import SEMI, INTEGER, ID, ASSIGN, DOT, P
 
 RESERVED_KEYWORDS = {
     'BEGIN': Token('BEGIN', 'BEGIN'),
-    'END': Token('END', 'END')
+    'END': Token('END', 'END'),
+    'DIV': Token('DIV', '/'),
 }
 
 
