@@ -22,3 +22,24 @@ def test_interpret():
     interpreter = Interpreter(parser)
     interpreter.interpret()
     assert interpreter.GLOBAL_SCOPE == {'a': 2, 'x': 11, 'c': 27, 'b': 25, 'number': 2}
+
+
+def test_interpret_exercise_1():
+    program_text = """
+    BEGIN
+
+    BEGIN
+        number := 2;
+        a := NumBer;
+        B := 10 * a + 10 * NUMBER / 4;
+        c := a - - b
+    end;
+
+    x := 11;
+    END.
+    """
+    lexer = Lexer(program_text)
+    parser = Parser(lexer)
+    interpreter = Interpreter(parser)
+    interpreter.interpret()
+    assert interpreter.GLOBAL_SCOPE == {'a': 2, 'x': 11, 'c': 27, 'b': 25, 'number': 2}

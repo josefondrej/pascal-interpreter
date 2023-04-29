@@ -37,7 +37,7 @@ class Lexer:
         while self.current_char is not None and self.current_char.isalnum():
             result += self.current_char
             self.advance()
-        token = RESERVED_KEYWORDS.get(result.upper(), Token(ID, result))
+        token = RESERVED_KEYWORDS.get(result.upper(), Token(ID, result.lower()))
         return token
 
     def _number(self) -> Token:
