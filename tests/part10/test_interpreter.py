@@ -1,4 +1,4 @@
-from pascal_intepreter.part1.interpreter import Interpreter
+from pascal_intepreter.part10.interpreter import Interpreter
 from pascal_intepreter.part10.lexer import Lexer
 from pascal_intepreter.part10.load_program import load_program
 from pascal_intepreter.part10.parser import Parser
